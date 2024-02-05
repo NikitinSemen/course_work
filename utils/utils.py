@@ -33,9 +33,10 @@ def get_format_date(date):
     return new_date_time
 
 
-def vanish(number):
+def mask_numb(number):
     return "**" + number[-4:]
 
 
-def vanish_from(number):
+def mask_number(number):
     return number[0:17] + "**** "
+
