@@ -1,6 +1,4 @@
-from utils.utils import get_format_date
-from utils.utils import mask_numb
-from utils.utils import mask_number
+from utils.utils import get_format_date, mask_numb, mask_number
 
 
 def test_get_format_date():
