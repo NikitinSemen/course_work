@@ -20,9 +20,7 @@ def get_new_operation(operation):
 
 def get_sort_operation(operation_list):
     """ сортирует операции по дате"""
-    sorted_operation = sorted(operation_list, key=lambda operation: operation.get('date'), reverse=True)
-
-    return sorted_operation
+    return sorted(operation_list, key=lambda operation: operation.get('date'), reverse=True)
 
 
 def get_five_operation(sorted_operation):
@@ -34,16 +32,22 @@ def get_format_date(date):
     """меняет формат даты на %Y-%m-%d"""
     split_date = date.split('T')[0]
     date_format = datetime.datetime.strptime(split_date, "%Y-%m-%d")
-    new_date_time = date_format.strftime("%d-%m-%Y")
+    new_date_time = date_format.strftime("%d.%m.%Y")
     return new_date_time
 
 
 def mask_numb(number):
     """ маскирует номер карты получения"""
+
     return "**" + number[-4:]
 
 
-def mask_number(number):
+def mask_number(num):
     """ маскирует номер карты отправителя"""
-    return number[0:17] + "**** "
 
+    if num == 'Новый счет':
+        return 'Новый счет'
+    card = num.split()[-1]
+    private_number = card[:4] + (len(card[6:-4]) * '*') + card[-4:]
+    full_card = num.split(' ')[0] + (' ') + private_number
+    return full_card
