@@ -1,37 +1,62 @@
-from utils.utils import get_data_json
-from utils.utils import get_new_operation
-from utils.utils import get_sort_operation
-from utils.utils import get_five_operation
-import json
+import os.path
 
-
-with open('file.json') as file:
-    test_list = json.load(file)
+from utils.utils import get_data_json, get_new_operation, get_sort_operation, get_five_operation
 
 
 def test_get_data_json():
-    assert get_data_json('file.json') == test_list
-
-
-new_dict = []
-for i in test_list:
-    if i.get('state') == 'EXECUTED' and i.get('date'):
-        new_dict.append(i)
+    file_path = os.path.dirname(__file__)
+    json_data = get_data_json(os.path.join(file_path, "file.json"))
+    assert isinstance(json_data, list)
+    assert isinstance(json_data[0], dict)
 
 
 def test_get_new_operation():
-    assert get_new_operation(test_list) == new_dict
+    data = [
+        {
+            "state": "EXECUTED",
+            "date": "2019-09-11T17:30:34.445824",
+        },
+        {
+            "state": "EXECUTED",
+        },
+        {
+            "state": "CANCELED",
+        }
+    ]
 
-
-sorted_operation = sorted(new_dict, key=lambda operation: operation.get('date'), reverse=True)
+    expected_data = [
+        {
+            "state": "EXECUTED",
+            "date": "2019-09-11T17:30:34.445824",
+        },
+    ]
+    assert get_new_operation(data) == expected_data
 
 
 def test_get_sorted_operation():
-    assert get_sort_operation(new_dict) == sorted_operation
+    data = [
+        {
+            "date": "2018-04-14T19:35:28.978265",
+        },
+        {
+            "date": "2019-09-11T17:30:34.445824",
+        }
+    ]
 
-
-operation = sorted_operation[0:5]
+    expected_data = [
+        {
+            "date": "2019-09-11T17:30:34.445824",
+        },
+        {
+            "date": "2018-04-14T19:35:28.978265",
+        },
+    ]
+    assert get_sort_operation(data) == expected_data
 
 
 def test_get_five_operation():
-    assert get_five_operation(sorted_operation) == operation
+    data = [1, 2, 3, 4, 5, 6, 7]
+    expected_data = [1, 2, 3, 4, 5]
+    assert get_five_operation(data) == expected_data
+
+
