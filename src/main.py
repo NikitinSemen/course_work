@@ -4,7 +4,6 @@ from utils.utils import (
     get_format_date,
     get_five_operation,
     get_sort_operation,
-    mask_numb,
     mask_number
 )
 
@@ -16,5 +15,5 @@ five_last_operation = get_five_operation(sort_operation)
 
 for i in five_last_operation:
     print((''), get_format_date(i['date']), i['description'], '\n', mask_number(i.get('from', 'Новый счет')),
-          "->", mask_numb(i["to"]), "\n", i["operationAmount"]["amount"],
+          "->", mask_number(i["to"]), "\n", i["operationAmount"]["amount"],
           i["operationAmount"]['currency']['name'], '\n\n')
