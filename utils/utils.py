@@ -36,18 +36,15 @@ def get_format_date(date):
     return new_date_time
 
 
-def mask_numb(number):
-    """ маскирует номер карты получения"""
-    numb_split = number.split(' ')[-1]
-    name_chek = number.split(' ')[0]
-    return f' {name_chek} {"**" + numb_split[-4:]}'
-
-
-def mask_number(num):
-    """ маскирует номер карты отправителя"""
-
-    if num == 'Новый счет':
+def mask_number(number: str):
+    if number.startswith("Новый счет"):
         return 'Новый счет'
-    card = num.split()[-1]
-    private_number = card[:4] + (len(card[6:-4]) * '*') + card[-4:]
-    return f'{num.split()[0]} {private_number}'
+
+    card_data = number.split()
+    card = card_data.pop(-1)
+    if number.startswith("Счет"):
+        private_number = f"**{card[-4:]}"
+    else:
+        private_number = f"{card[:4]} {card[5:7]}** **** {card[-4:]}"
+
+    return f'{" ".join(card_data)} {private_number}'
